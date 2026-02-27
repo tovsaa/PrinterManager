@@ -109,7 +109,8 @@ void PrinterManager::refreshPrintJobsFromRemote() {
 
     bool ok = false;
     try {
-        ok = readPrintJobs(jobsVec, localDbPath.toStdString());
+        if (!m_code.isEmpty())
+            ok = readPrintJobs(m_code.toStdString(), jobsVec, localDbPath.toStdString());
     } catch (const std::exception &e) {
         qWarning() << "Exception in readPrintJobs:" << e.what();
         ok = false;
@@ -212,6 +213,18 @@ void PrinterManager::setDocxFilePath(const QString &path) {
     if (!path.isEmpty())
         convertDocxToPdf(path);
 }
+
+void PrinterManager::setCode(const QString &code) {
+    if (m_code == code)
+        return;
+    m_code = code;
+    emit codeChanged();
+
+    // if (!code.isEmpty())
+    //     qDebug() << code;
+}
+
+
 
 void PrinterManager::cleanupPdfFile() {
     if (!m_pdfFilePath.isEmpty()) {
@@ -335,7 +348,8 @@ void PrinterManager::printJob(const QString &pageRange, int copies) {
 
     bool ok = false;
     try {
-        ok = addPrintJob(printerName.toStdString(), totalPages, localDbPath.toStdString());
+        if (!m_code.isEmpty())
+            ok = addPrintJob(m_code.toStdString(), printerName.toStdString(), totalPages, localDbPath.toStdString());
     } catch (const std::exception &e) {
         emit printResult(false, tr("Исключение при добавлении в БД: ") + QString::fromStdString(e.what()));
         return;

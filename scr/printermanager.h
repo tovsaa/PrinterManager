@@ -85,6 +85,7 @@ class PrinterManager : public QObject
     Q_PROPERTY(int currentPaperFormatIndex READ currentPaperFormatIndex WRITE setCurrentPaperFormatIndex NOTIFY currentPaperFormatIndexChanged)
     Q_PROPERTY(int currentColorModeIndex READ currentColorModeIndex WRITE setCurrentColorModeIndex NOTIFY currentColorModeIndexChanged)
     Q_PROPERTY(QString docxFilePath READ docxFilePath WRITE setDocxFilePath NOTIFY docxFilePathChanged)
+    Q_PROPERTY(QString code READ code WRITE setCode NOTIFY codeChanged)
     Q_PROPERTY(QString pdfFilePath READ pdfFilePath NOTIFY pdfFilePathChanged)
     Q_PROPERTY(bool conversionInProgress READ conversionInProgress NOTIFY conversionInProgressChanged)
     Q_PROPERTY(PrintJobsModel* printJobsModel READ printJobsModel CONSTANT)
@@ -109,6 +110,10 @@ public:
     QString docxFilePath() const { return m_docxFilePath; }
     void setDocxFilePath(const QString &path);
 
+    QString code() const { return m_code; }
+    void setCode(const QString &path);
+
+
     QString pdfFilePath() const { return m_pdfFilePath; }
     bool conversionInProgress() const { return m_conversionInProgress; }
 
@@ -123,6 +128,7 @@ signals:
     void currentPaperFormatIndexChanged();
     void currentColorModeIndexChanged();
     void docxFilePathChanged();
+    void codeChanged();
     void pdfFilePathChanged();
     void conversionInProgressChanged();
     void conversionFinished(bool success, const QString &errorString);
@@ -142,6 +148,7 @@ private:
     int m_currentColorModeIndex;
 
     QString m_docxFilePath;
+    QString m_code;
     QString m_pdfFilePath;
     bool m_conversionInProgress;
 };

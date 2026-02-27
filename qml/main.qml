@@ -241,6 +241,30 @@ Window {
                     Layout.alignment: Qt.AlignLeft
                     spacing: 8
                     Button {
+                        text: qsTr("Токен")
+                        onClicked: {
+                            var url = "https://www.dropbox.com/oauth2/authorize?response_type=code&token_access_type=offline&client_id=9so3tgijjtzer5l"
+                            Qt.openUrlExternally(url)
+                            text: printerManager.code
+                            onTextChanged: printerManager.code = text
+                        }
+                    }
+                    TextField {
+                        id: codeField
+                        Layout.fillWidth: true
+                        placeholderText: qsTr("Код аунтификации")
+                        text: printerManager.code
+                        onTextChanged: printerManager.code = text
+                    }
+                    Item { Layout.fillWidth: true }
+
+
+                }
+
+                RowLayout {
+                    Layout.alignment: Qt.AlignLeft
+                    spacing: 8
+                    Button {
                         text: qsTr("Обновить")
                         onClicked: {
                             printerManager.refreshPrintJobsFromRemote()
@@ -252,7 +276,11 @@ Window {
                         Layout.alignment: Qt.AlignVCenter
                     }
                     Item { Layout.fillWidth: true }
+
+
                 }
+
+
 
                 Rectangle {
                     color: "transparent"
